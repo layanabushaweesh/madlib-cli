@@ -6,10 +6,20 @@ def read_template(path):
      content = file.read().strip()
      #strip return acopy of string
      print(content)
-     return content
+    #  return content
+    try:
+        file=open(path)
+        content=file.read().strip()
+        file.close()
+    except FileNotFoundError:
+        if content == 'no such file':
+            print('File Not Found Error please try again')
+    return content
+
      
 import re
 #re module, we can start using regular expressions and search
+#boolean value should start with is to make it true
 def parse_template(txt, isTrue=True):
     pattern = r"{(.*?)}"
     #  r means the string will be treated as raw string. 
@@ -41,21 +51,23 @@ def merge(input, placeholders, txt):
 
     txt=txt.replace("{","")
     massage_content=txt.replace("}" ,"")
-    file="(/assets/ms.txt)".strip()
-    with open(file,'w') as message:
+    file="assets/ms.txt"
+    content=file.strip()
+    with open(content,'w') as message:
         message.write(massage_content)
 
     print(f"""
-    ********
+    *******
      your paraghraph
-     ********
+    *******
      {massage_content}
      """)
     return massage_content
 
+##under dender what inside it will not imort
 if __name__ == "__main__":
-    content = read_template('assets/madlib.txt')
-    items = parse_template(content)
-    to_be_replaced_with = items[0]
-    to_be_replaced = items[1] 
-    merge(to_be_replaced_with, to_be_replaced, content)
+    txt = read_template('assets/madlib.txt')
+    item = parse_template(txt)
+    first_parameter = item[0]
+    second_parameter = item[1] 
+    merge(first_parameter, second_parameter, txt)
